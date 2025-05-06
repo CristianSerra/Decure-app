@@ -1,7 +1,6 @@
 package br.com.cristaisstudios.artmap;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +17,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String pasta = "https://artmap.ok.etc.br/images/";
-    RecyclerView Novidades, Exposicoes, CatGalerias;
+    RecyclerView CatNovidades, CatExposicoes, CatGalerias;
     List<String> lancamentos = new ArrayList<>();
     List<String> exposicoes = new ArrayList<>();
     List<String> galerias   = new ArrayList<>();
@@ -32,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Novidades = findViewById(R.id.Novidades);
-        Exposicoes = findViewById(R.id.Exposicoes);
+        CatNovidades = findViewById(R.id.Novidades);
+        CatExposicoes = findViewById(R.id.Exposicoes);
         CatGalerias = findViewById(R.id.Galerias);
 
         ApiServico apiService = ApiClient.getRetrofit().create(ApiServico.class);
@@ -58,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                             galerias.add(pasta+info.getimagem());
                         }
                     }
-                    setupRecycler(Novidades, lancamentos);
-                    setupRecycler(Exposicoes, exposicoes);
+                    setupRecycler(CatNovidades, lancamentos);
+                    setupRecycler(CatExposicoes, exposicoes);
                     setupRecycler(CatGalerias, galerias);
                 } else {
                     Toast.makeText(MainActivity.this, "Erro ao buscar dados", Toast.LENGTH_SHORT).show();
