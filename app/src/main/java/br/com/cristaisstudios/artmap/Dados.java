@@ -21,4 +21,11 @@ public class Dados {
     public int getId() { return id; }
     public String getimagem() { return imagem; }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }

@@ -8,4 +8,5 @@ import retrofit2.http.GET;
 public interface ApiServico {
     @GET("carrega.php")
     Call<List<Dados>> getdados();
+
 }

@@ -1,6 +1,8 @@
 package br.com.cristaisstudios.artmap;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,12 +19,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String pasta = "https://artmap.ok.etc.br/images/";
-    RecyclerView CatNovidades, CatExposicoes, CatGalerias;
-    List<String> lancamentos = new ArrayList<>();
-    List<String> exposicoes = new ArrayList<>();
-    List<String> galerias   = new ArrayList<>();
 
-    private static final String[] nomes = new String[3];
+    List<Dados> eventos;
+    RecyclerView CatNovidades, CatExposicoes, CatGalerias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         CatExposicoes = findViewById(R.id.Exposicoes);
         CatGalerias = findViewById(R.id.Galerias);
 
+        List<String> lancamentos = new ArrayList<>();
+        List<String> exposicoes = new ArrayList<>();
+        List<String> galerias   = new ArrayList<>();
+
         ApiServico apiService = ApiClient.getRetrofit().create(ApiServico.class);
         Call<List<Dados>> call = apiService.getdados();
 
@@ -40,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Dados>> call, Response<List<Dados>> response) {
                 if (response.isSuccessful()) {
-                    List<Dados> dados = response.body();
+                    eventos = response.body();
                     int aux=0;
-
-                    for (Dados info : dados) {
+                    for (Dados info : eventos) {
                         aux++;
                         if (aux>3 && aux<=6) {
                             lancamentos.add(pasta+info.getimagem());
@@ -58,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
                     setupRecycler(CatNovidades, lancamentos);
                     setupRecycler(CatExposicoes, exposicoes);
                     setupRecycler(CatGalerias, galerias);
-                } else {
-                    Toast.makeText(MainActivity.this, "Erro ao buscar dados", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -67,13 +67,26 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<List<Dados>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-
         });
-
     }
 
     private void setupRecycler(RecyclerView recyclerView, List<String> data) {
-        PosterAdapter adapter = new PosterAdapter(this, data);
+        String recyclerName = getResources().getResourceEntryName(recyclerView.getId());
+        TextView txtTitulo = findViewById(R.id.Titulo);
+        TextView txtDesc = findViewById(R.id.Descricao);
+        PosterAdapter adapter = new PosterAdapter(this, data, new PosterAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String imageUrl, int position) {
+                int auxpos=3;
+                if (recyclerName.equals("Exposicoes")) auxpos=6;
+                if (recyclerName.equals("Galerias")) auxpos=9;
+                Dados saida = eventos.get(auxpos+position);
+                txtDesc.setText("Descrição: "+saida.getDescricao());
+                //txtTitulo.setText(recyclerName+" : "+saida.getTitulo());
+
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

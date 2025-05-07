@@ -15,10 +15,16 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
 
     private Context context;
     private List<String> imageUrls;
+    private OnItemClickListener listener;
 
-    public PosterAdapter(Context context, List<String> imageUrls) {
+    public interface OnItemClickListener {
+        void onItemClick(String imageUrl, int position);
+    }
+
+    public PosterAdapter(Context context, List<String> imageUrls, OnItemClickListener listener) {
         this.context = context;
         this.imageUrls = imageUrls;
+        this.listener = listener;
     }
 
     @Override
@@ -30,7 +36,7 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
     @Override
     public void onBindViewHolder(PosterViewHolder holder, int position) {
         String imageUrl = imageUrls.get(position);
-        Glide.with(context).load(imageUrl).into(holder.imagePoster);
+        holder.bind(imageUrl, position, listener);
     }
 
     @Override
@@ -44,6 +50,16 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
         public PosterViewHolder(View itemView) {
             super(itemView);
             imagePoster = itemView.findViewById(R.id.imagePoster);
+        }
+
+        public void bind(String imageUrl, int position, OnItemClickListener listener) {
+            Glide.with(itemView.getContext()).load(imageUrl).into(imagePoster);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(imageUrl, position);
+                }
+            });
         }
     }
 }
