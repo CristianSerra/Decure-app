@@ -1,7 +1,12 @@
 package br.com.cristaisstudios.artmap;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,14 +24,27 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String pasta = "https://artmap.ok.etc.br/images/";
+    private ImageButton btnGoToLogin;
 
     List<Dados> eventos;
     RecyclerView CatNovidades, CatExposicoes, CatGalerias;
+    TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
+        String usertoken = prefs.getString("AUTH_TOKEN", null);
+        username = findViewById(R.id.usuario);
+        username.setText(usertoken);
+
+        btnGoToLogin = findViewById(R.id.btnPerfil);
+        btnGoToLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
         CatNovidades = findViewById(R.id.Novidades);
         CatExposicoes = findViewById(R.id.Exposicoes);
