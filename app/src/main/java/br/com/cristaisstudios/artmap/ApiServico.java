@@ -13,10 +13,10 @@ public interface ApiServico {
     Call<List<Dados>> getdados();
 
     @FormUrlEncoded
-    @POST("/userlogin.php")
+    @POST("userlogin.php")
     Call<LoginResponse> login(
-            @Field("Email") String email,
-            @Field("Senha") String senha
+            @Field("Email") String Email,
+            @Field("Senha") String Senha
     );
 
 }

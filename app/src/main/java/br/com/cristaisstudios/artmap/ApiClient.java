@@ -4,7 +4,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://artmap.ok.etc.br/";
+    //private static final String BASE_URL = "https://artmap.ok.etc.br/";
+    private static final String BASE_URL = "http://192.168.15.2/decure/";
     private static Retrofit retrofit;
 
     public static Retrofit getRetrofit() {

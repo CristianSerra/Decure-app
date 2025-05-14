@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            //LoginRequest request = new LoginRequest(email, senha);
             ApiServico api = ApiClient.getRetrofit().create(ApiServico.class);
             Call<LoginResponse> call = api.login(email, senha);
             call.enqueue(new Callback<LoginResponse>() {
@@ -55,9 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         LoginResponse resposta = response.body();
-
                         if (resposta.isSuccess()) {
-                            String token = response.body().getToken();
+                            String token = resposta.getToken();
                             Toast.makeText(LoginActivity.this, "Login realizado com sucesso - token: "+token, Toast.LENGTH_SHORT).show();
                             SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
