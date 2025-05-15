@@ -9,6 +9,7 @@ android:background="#FFFFFF">
 
 
 <LinearLayout
+    android:id="@+id/principal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -27,16 +28,14 @@ android:background="#FFFFFF">
             android:layout_height="58dp"
             app:srcCompat="@drawable/logo" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
         <TextView
             android:id="@+id/usuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:text="não logado"
+            android:textAlignment="textEnd" />
 
         <ImageButton
             android:id="@+id/btnPerfil"
@@ -50,8 +49,6 @@ android:background="#FFFFFF">
     </LinearLayout>
 
     <!-- Categoria 1 -->
-
-
 
     <TextView
         android:layout_width="match_parent"
@@ -74,7 +71,16 @@ android:background="#FFFFFF">
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
          />
 
+    <TextView
+        android:id="@+id/descricao1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
     <!-- Categoria 2 -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,6 +101,14 @@ android:background="#FFFFFF">
         android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
          />
+
+    <TextView
+        android:id="@+id/descricao2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
     <!-- Categoria 3 -->
     <TextView
@@ -119,16 +133,12 @@ android:background="#FFFFFF">
          />
 
     <TextView
-        android:id="@+id/Titulo"
-        android:layout_width="match_parent"
+        android:id="@+id/descricao3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Titulo" />
-
-    <TextView
-        android:id="@+id/Descricao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Descricao" />
+        android:textColor="#555"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>
