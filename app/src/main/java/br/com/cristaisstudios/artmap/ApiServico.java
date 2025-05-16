@@ -20,14 +20,14 @@ public interface ApiServico {
     );
 
     @FormUrlEncoded
-    @POST("usuarios.php")
-    Call<Void> cadastrarUsuario(
-            @Field("nome") String nome,
-            @Field("email") String email,
-            @Field("cpf") String cpf,
-            @Field("senha") String senha,
-            @Field("telefone") String telefone,
-            @Field("dtnascimento") String dtnascimento,
+    @POST("cadusuario.php")
+    Call<LoginResponse> cadastrarUsuario(
+            @Field("Nome") String nome,
+            @Field("Email") String email,
+            @Field("CPF") String cpf,
+            @Field("Senha") String senha,
+            @Field("Telefone") String telefone,
+            @Field("DTnascimento") String dtnascimento,
             @Field("logradouro") String logradouro,
             @Field("complemento") String complemento,
             @Field("bairro") String bairro,

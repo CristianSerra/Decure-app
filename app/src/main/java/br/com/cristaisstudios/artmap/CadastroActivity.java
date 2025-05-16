@@ -41,8 +41,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         btnCadastrar.setOnClickListener(v -> {
             ApiServico api = ApiClient.getRetrofit().create(ApiServico.class);
-
-            Call<Void> call = api.cadastrarUsuario(
+            Call<LoginResponse> call = api.cadastrarUsuario(
                     etNome.getText().toString(),
                     etEmail.getText().toString(),
                     etCPF.getText().toString(),
@@ -56,9 +55,9 @@ public class CadastroActivity extends AppCompatActivity {
                     etUF.getText().toString()
             );
 
-            call.enqueue(new Callback<Void>() {
+            call.enqueue(new Callback<LoginResponse>() {
                 @Override
-                public void onResponse(Call<Void> call, Response<Void> response) {
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                         finish();
@@ -68,7 +67,7 @@ public class CadastroActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<Void> call, Throwable t) {
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
                     Toast.makeText(CadastroActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

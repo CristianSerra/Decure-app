@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#F3218E"
+            android:textColor="#FFFFFF"
             android:text="Voltar" />
 
     </LinearLayout>
@@ -98,9 +99,10 @@
         android:id="@+id/btnCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
         android:backgroundTint="#044912"
+        android:textColor="#FFFFFF"
         android:text="Cadastro" />
 
 </LinearLayout>
