@@ -19,4 +19,20 @@ public interface ApiServico {
             @Field("Senha") String Senha
     );
 
+    @FormUrlEncoded
+    @POST("usuarios.php")
+    Call<Void> cadastrarUsuario(
+            @Field("nome") String nome,
+            @Field("email") String email,
+            @Field("cpf") String cpf,
+            @Field("senha") String senha,
+            @Field("telefone") String telefone,
+            @Field("dtnascimento") String dtnascimento,
+            @Field("logradouro") String logradouro,
+            @Field("complemento") String complemento,
+            @Field("bairro") String bairro,
+            @Field("localidade") String localidade,
+            @Field("uf") String uf
+    );
+
 }

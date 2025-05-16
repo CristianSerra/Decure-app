@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
-        String usertoken = prefs.getString("AUTH_TOKEN", null);
-        //username = findViewById(R.id.usuario);
-        //username.setText(usertoken);
+        String user = prefs.getString("AUTH_USER", null);
+        username = findViewById(R.id.usuario);
+        username.setText(user);
 
         btnGoToLogin = findViewById(R.id.btnPerfil);
         btnGoToLogin.setOnClickListener(v -> {

@@ -18,7 +18,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEditText, passwordEditText;
-    private Button botaoLogin, botaoVoltar;
+    private Button botaoLogin, botaoVoltar, botaoCadastro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,20 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.edPassword);
         botaoLogin = findViewById(R.id.btnLogin);
         botaoVoltar = findViewById(R.id.btnVoltar);
+        botaoCadastro = findViewById(R.id.btnCadastro);
 
         botaoVoltar.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
+
+        botaoCadastro.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, CadastroActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
 
         // Ação de clique
         botaoLogin.setOnClickListener(v -> {
@@ -56,10 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                         LoginResponse resposta = response.body();
                         if (resposta.isSuccess()) {
                             String token = resposta.getToken();
-                            Toast.makeText(LoginActivity.this, "Login realizado com sucesso - token: "+token, Toast.LENGTH_SHORT).show();
+                            String usuario = resposta.getUser();
+                            Toast.makeText(LoginActivity.this, "Login realizado com sucesso "+usuario, Toast.LENGTH_SHORT).show();
                             SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
-                            editor.putString("AUTH_TOKEN", token);
+                            editor.putString("AUTH_USER", usuario);
                             editor.apply();
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
