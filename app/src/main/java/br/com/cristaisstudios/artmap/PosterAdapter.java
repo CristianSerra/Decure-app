@@ -39,7 +39,6 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
     public void onBindViewHolder(PosterViewHolder holder, int position) {
         Evento evento = eventos.get(position);
         holder.bind(evento, position, txtdescricao);
-
     }
 
     @Override
@@ -60,11 +59,11 @@ public class PosterAdapter extends RecyclerView.Adapter<PosterAdapter.PosterView
         public void bind(Evento evento, int position, TextView descricao) {
             Glide.with(itemView.getContext()).load(evento.getImagem()).into(imagePoster);
             txtTitulo.setText(evento.getTitulo());
-            boolean isVisible = (txtTitulo.getVisibility() == View.VISIBLE);
             itemView.setOnClickListener(v -> {
+                boolean isVisible = (txtTitulo.getVisibility() == View.VISIBLE);
                 descricao.setText(evento.getDescricao());
                 txtTitulo.setVisibility(isVisible ? View.GONE : View.VISIBLE);
-                descricao.setVisibility(isVisible  ? View.GONE : View.VISIBLE);
+                descricao.setVisibility(isVisible ? View.GONE : View.VISIBLE);
             });
         }
     }
