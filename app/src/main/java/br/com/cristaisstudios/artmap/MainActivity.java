@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String pasta = "https://artmap.ok.etc.br/images/";
     private ImageButton btnGoToLogin;
+    String user;
 
     List<Dados> eventos;
     RecyclerView CatNovidades, CatExposicoes, CatGalerias;
@@ -36,14 +37,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
-        String user = prefs.getString("AUTH_USER", null);
+        user = prefs.getString("AUTH_USER", null);
         username = findViewById(R.id.usuario);
-        username.setText(user);
+        if (user!=null) username.setText(user);
 
         btnGoToLogin = findViewById(R.id.btnPerfil);
         btnGoToLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+            if (user!=null) {
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.apply();
+                user = prefs.getString("AUTH_USER", null);
+                username.setText("não logado");
+            } else {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
         });
 
         CatNovidades = findViewById(R.id.Novidades);

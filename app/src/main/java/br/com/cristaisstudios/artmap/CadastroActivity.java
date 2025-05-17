@@ -1,6 +1,8 @@
 package br.com.cristaisstudios.artmap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,11 +60,27 @@ public class CadastroActivity extends AppCompatActivity {
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    if (response.isSuccessful()) {
-                        Toast.makeText(CadastroActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                        finish();
+                    if (response.isSuccessful() && response.body() != null) {
+                        LoginResponse resposta = response.body();
+                        if (resposta.isSuccess()) {
+                            String token = resposta.getToken();
+                            String usuario = resposta.getUser();
+                            Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso " + usuario, Toast.LENGTH_SHORT).show();
+                            SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("AUTH_USER", usuario);
+                            editor.apply();
+
+                            Intent intent = new Intent(CadastroActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            String erro = response.body().getError();
+                            Toast.makeText(CadastroActivity.this, "Erro: "+erro, Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
-                        Toast.makeText(CadastroActivity.this, "Erro: " + response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastroActivity.this, "Resposta inválida do servidor - "+response.code(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
