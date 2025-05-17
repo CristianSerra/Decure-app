@@ -29,4 +29,6 @@ public class Dados {
     public String getDescricao() {
         return descricao;
     }
+
+    public String getCategoria() { return categoria; }
 }

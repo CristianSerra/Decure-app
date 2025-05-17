@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,13 +31,73 @@ public class MainActivity extends AppCompatActivity {
     String user;
 
     List<Dados> eventos;
-    RecyclerView CatNovidades, CatExposicoes, CatGalerias;
-    TextView username, txtdesc1, txtdesc2, txtdesc3;
+    LinearLayout blocoNV, blocoEX, blocoMU, blocoED, blocoGA;
+    RecyclerView CatNovidades, CatExposicoes, CatGalerias, CatMuseus, CatEditais;
+    RecyclerView recyclerCategorias;
+    TextView username, txtdesc1, txtdesc2, txtdesc3, txtdesc4, txtdesc5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        blocoNV = findViewById(R.id.categoriaNV);
+        blocoEX = findViewById(R.id.categoriaEX);
+        blocoMU = findViewById(R.id.categoriaMU);
+        blocoED = findViewById(R.id.categoriaED);
+        blocoGA = findViewById(R.id.categoriaGA);
+
+        CatNovidades = findViewById(R.id.Novidades);
+        CatExposicoes = findViewById(R.id.Exposicoes);
+        CatMuseus = findViewById(R.id.Museus);
+        CatEditais = findViewById(R.id.Editais);
+        CatGalerias = findViewById(R.id.Galerias);
+        txtdesc1 = findViewById(R.id.descricao1);
+        txtdesc2 = findViewById(R.id.descricao2);
+        txtdesc3 = findViewById(R.id.descricao3);
+        txtdesc4 = findViewById(R.id.descricao4);
+        txtdesc5 = findViewById(R.id.descricao5);
+
+        recyclerCategorias = findViewById(R.id.recyclerCategorias);
+
+        List<Categoria> categorias = Arrays.asList(
+                new Categoria("Novidades"),
+                new Categoria("Exposições"),
+                new Categoria("Galerias"),
+                new Categoria("Museus"),
+                new Categoria("Leilões"),
+                new Categoria("Feiras"),
+                new Categoria("Editais"),
+                new Categoria("Eventos")
+        );
+
+        CategoriaAdapter adapter = new CategoriaAdapter(categorias, categoria -> {
+            boolean visivel;
+            if (categoria.getNome().equals("Novidades")) {
+                visivel = (blocoNV.getVisibility() == View.VISIBLE);
+                blocoNV.setVisibility(visivel ? View.GONE : View.VISIBLE);
+            }
+            if (categoria.getNome().equals("Exposições")) {
+                visivel = (blocoEX.getVisibility() == View.VISIBLE);
+                blocoEX.setVisibility(visivel ? View.GONE : View.VISIBLE);
+            }
+            if (categoria.getNome().equals("Museus")) {
+                visivel = (blocoMU.getVisibility() == View.VISIBLE);
+                blocoMU.setVisibility(visivel ? View.GONE : View.VISIBLE);
+            }
+            if (categoria.getNome().equals("Editais")) {
+                visivel = (blocoED.getVisibility() == View.VISIBLE);
+                blocoED.setVisibility(visivel ? View.GONE : View.VISIBLE);
+            }
+            if (categoria.getNome().equals("Galerias")) {
+                visivel = (blocoGA.getVisibility() == View.VISIBLE);
+                blocoGA.setVisibility(visivel ? View.GONE : View.VISIBLE);
+            }
+        });
+
+        recyclerCategorias.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerCategorias.setAdapter(adapter);
 
         SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
         user = prefs.getString("AUTH_USER", null);
@@ -55,16 +118,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CatNovidades = findViewById(R.id.Novidades);
-        CatExposicoes = findViewById(R.id.Exposicoes);
-        CatGalerias = findViewById(R.id.Galerias);
-        txtdesc1 = findViewById(R.id.descricao1);
-        txtdesc2 = findViewById(R.id.descricao2);
-        txtdesc3 = findViewById(R.id.descricao3);
-
-        List<Evento> lancamentos = new ArrayList<>();
+        List<Evento> novidades = new ArrayList<>();
         List<Evento> exposicoes = new ArrayList<>();
         List<Evento> galerias   = new ArrayList<>();
+        List<Evento> museus = new ArrayList<>();
+        List<Evento> editais = new ArrayList<>();
 
         ApiServico apiService = ApiClient.getRetrofit().create(ApiServico.class);
         Call<List<Dados>> call = apiService.getdados();
@@ -74,22 +132,28 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<Dados>> call, Response<List<Dados>> response) {
                 if (response.isSuccessful()) {
                     eventos = response.body();
-                    int aux=0;
                     for (Dados info : eventos) {
-                        aux++;
-                        if (aux>3 && aux<=6) {
-                            lancamentos.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
+                        if (info.getCategoria().equals("NV")) {
+                            novidades.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
                         }
-                        if (aux>6 && aux<=9) {
+                        if (info.getCategoria().equals("EX")) {
                             exposicoes.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
                         }
-                        if (aux>9 && aux<=12) {
+                        if (info.getCategoria().equals("MU")) {
+                            museus.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
+                        }
+                        if (info.getCategoria().equals("ED")) {
+                            editais.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
+                        }
+                        if (info.getCategoria().equals("GA")) {
                             galerias.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
                         }
                     }
-                    setupRecycler(CatNovidades, lancamentos, txtdesc1);
+                    setupRecycler(CatNovidades, novidades, txtdesc1);
                     setupRecycler(CatExposicoes, exposicoes, txtdesc2);
-                    setupRecycler(CatGalerias, galerias, txtdesc3);
+                    setupRecycler(CatMuseus, museus, txtdesc3);
+                    setupRecycler(CatEditais, editais, txtdesc4);
+                    setupRecycler(CatGalerias, galerias, txtdesc5);
                 }
             }
 
