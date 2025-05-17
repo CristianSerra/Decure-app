@@ -34,7 +34,7 @@ android:background="#FFFFFF">
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_weight="1"
-            android:text="não logado"
+            android:text="@string/nao_logado"
             android:textAlignment="textEnd" />
 
         <ImageButton
@@ -76,7 +76,7 @@ android:background="#FFFFFF">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Novidades"
+        android:text="@string/Tit_novidades"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="16dp"
@@ -116,7 +116,7 @@ android:background="#FFFFFF">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exposições"
+        android:text="@string/Tit_exposicoes"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="16dp"
@@ -156,7 +156,7 @@ android:background="#FFFFFF">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Museus"
+        android:text="@string/Tit_museus"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="16dp"
@@ -196,7 +196,7 @@ android:background="#FFFFFF">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Editais"
+        android:text="@string/Tit_editais"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="16dp"
@@ -236,7 +236,7 @@ android:background="#FFFFFF">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/galerias"
+        android:text="@string/Tit_galerias"
         android:textSize="18sp"
         android:textColor="#000000"
         android:padding="16dp"

@@ -12,7 +12,7 @@
         android:id="@+id/tvLoginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#333333"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Email:"
+        android:text="@string/Log_email"
         android:textSize="16sp"
         android:textColor="#555555"
         android:layout_marginTop="8dp" />
@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
-        android:hint="Digite seu email"
+        android:hint="@string/Log_hint_digite_seu_email"
         android:background="@android:drawable/edit_text"
         android:padding="10dp" />
 
@@ -42,7 +42,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Senha:"
+        android:text="@string/Log_senha"
         android:textSize="16sp"
         android:textColor="#555555"
         android:layout_marginTop="16dp" />
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
-        android:hint="Digite sua senha"
+        android:hint="@string/Log_hint_digite_sua_senha"
         android:background="@android:drawable/edit_text"
         android:padding="10dp" />
 
@@ -72,7 +72,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="40dp"
             android:backgroundTint="#2196F3"
-            android:text="Entrar"
+            android:text="@string/botao_entrar"
             android:textColor="#FFFFFF" />
 
         <Button
@@ -82,7 +82,7 @@
             android:layout_gravity="center_horizontal"
             android:backgroundTint="#F3218E"
             android:textColor="#FFFFFF"
-            android:text="Voltar" />
+            android:text="@string/Botao_voltar" />
 
     </LinearLayout>
 
@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
-        android:text="Ainda não possui cadastro?"
+        android:text="@string/nao_possui_cadastro"
         android:textAlignment="center"
         android:textColor="#555555"
         android:textSize="18sp" />
@@ -103,6 +103,6 @@
         android:layout_marginTop="15dp"
         android:backgroundTint="#044912"
         android:textColor="#FFFFFF"
-        android:text="Cadastro" />
+        android:text="@string/botao_cadastro" />
 
 </LinearLayout>

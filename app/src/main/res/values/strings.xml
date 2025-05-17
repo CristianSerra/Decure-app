@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">Decure</string>
-    <string name="galerias">Galerias</string>
+    <string name="Tit_galerias">Galerias</string>
+    <string name="nao_logado">não logado</string>
+    <string name="Tit_novidades">Novidades</string>
+    <string name="Tit_exposicoes">Exposições</string>
+    <string name="Tit_museus">Museus</string>
+    <string name="Tit_editais">Editais</string>
+    <string name="Log_email">Email:</string>
+    <string name="Log_senha">Senha:</string>
+    <string name="Log_hint_digite_sua_senha">Digite sua senha</string>
+    <string name="Log_hint_digite_seu_email">Digite seu email</string>
+    <string name="login">Login</string>
+    <string name="botao_entrar">Entrar</string>
+    <string name="Botao_voltar">Voltar</string>
+    <string name="nao_possui_cadastro">Ainda não possui cadastro?</string>
+    <string name="botao_cadastro">Cadastro</string>
+    <string name="cad_hint_nome">Nome*</string>
+    <string name="cad_hint_email">Email*</string>
+    <string name="cad_hint_cpf">CPF</string>
+    <string name="cad_hint_senha">Senha*</string>
+    <string name="cad_hint_telefone">Telefone</string>
+    <string name="cad_hint_data_de_nascimento">Data de Nascimento</string>
+    <string name="cad_hint_logradouro">Logradouro</string>
+    <string name="cad_hint_complemento">Complemento</string>
+    <string name="cad_hint_bairro">Bairro</string>
+    <string name="cad_hint_localidade">Localidade</string>
+    <string name="cad_hint_uf">UF</string>
+    <string name="cad_campos_obrigatorios">* campos obrigatórios</string>
+    <string name="cad_btn_cadastrar">Cadastrar</string>
+    <string name="cad_btn_voltar">Voltar</string>
 </resources>
