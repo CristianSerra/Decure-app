@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("AUTH_USER", usuario);
+                            editor.putString("AUTH_EMAIL", email);
+                            editor.putString("AUTH_TOKEN", token);
                             editor.apply();
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
