@@ -1,10 +1,13 @@
 package br.com.cristaisstudios.artmap;
 
-public class LoginResponse {
+import java.util.List;
+
+public class EventosResponse {
     private boolean success;
     private String token;
     private String usuario;
     private String error;
+    private List<Dados> dados;
 
     public boolean isSuccess() {
         return success;
@@ -16,5 +19,5 @@ public class LoginResponse {
         return error;
     }
     public String getUser() { return usuario; }
+    public List<Dados> getEventos() { return dados; }
 }
-

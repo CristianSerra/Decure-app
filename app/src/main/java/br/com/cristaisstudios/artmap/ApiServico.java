@@ -9,8 +9,12 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiServico {
-    @GET("carrega.php")
-    Call<List<Dados>> getdados();
+    @FormUrlEncoded
+    @POST("eventos.php")
+    Call<EventosResponse> getdados(
+            @Field("Email") String Email,
+            @Field("Token") String Token
+    );
 
     @FormUrlEncoded
     @POST("userlogin.php")

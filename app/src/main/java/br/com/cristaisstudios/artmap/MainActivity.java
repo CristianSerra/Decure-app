@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final String pasta = "https://artmap.ok.etc.br/images/";
     private ImageButton btnGoToLogin;
-    String user;
+    String user, email, token;
 
+    EventosResponse resposta;
     List<Dados> eventos;
     LinearLayout blocoNV, blocoEX, blocoMU, blocoED, blocoGA;
     RecyclerView CatNovidades, CatExposicoes, CatGalerias, CatMuseus, CatEditais;
@@ -101,17 +102,28 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
         user = prefs.getString("AUTH_USER", null);
+        email = prefs.getString("AUTH_EMAIL", null);
+        token = prefs.getString("AUTH_TOKEN", null);
+
         username = findViewById(R.id.usuario);
-        if (user!=null) username.setText(user);
+        if (user != null) {
+            username.setText(user);
+            blocoNV.setVisibility(View.VISIBLE);
+        }
 
         btnGoToLogin = findViewById(R.id.btnPerfil);
         btnGoToLogin.setOnClickListener(v -> {
-            if (user!=null) {
+            if (user != null) {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.clear();
                 editor.apply();
                 user = prefs.getString("AUTH_USER", null);
                 username.setText("não logado");
+                blocoNV.setVisibility(View.GONE);
+                blocoEX.setVisibility(View.GONE);
+                blocoMU.setVisibility(View.GONE);
+                blocoED.setVisibility(View.GONE);
+                blocoGA.setVisibility(View.GONE);
             } else {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -120,48 +132,51 @@ public class MainActivity extends AppCompatActivity {
 
         List<Evento> novidades = new ArrayList<>();
         List<Evento> exposicoes = new ArrayList<>();
-        List<Evento> galerias   = new ArrayList<>();
+        List<Evento> galerias = new ArrayList<>();
         List<Evento> museus = new ArrayList<>();
         List<Evento> editais = new ArrayList<>();
 
-        ApiServico apiService = ApiClient.getRetrofit().create(ApiServico.class);
-        Call<List<Dados>> call = apiService.getdados();
+        if (email != null && token != null) {
+            ApiServico apiService = ApiClient.getRetrofit().create(ApiServico.class);
+            Call<EventosResponse> call = apiService.getdados(email, token);
 
-        call.enqueue(new Callback<List<Dados>>() {
-            @Override
-            public void onResponse(Call<List<Dados>> call, Response<List<Dados>> response) {
-                if (response.isSuccessful()) {
-                    eventos = response.body();
-                    for (Dados info : eventos) {
-                        if (info.getCategoria().equals("NV")) {
-                            novidades.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
+            call.enqueue(new Callback<EventosResponse>() {
+                @Override
+                public void onResponse(Call<EventosResponse> call, Response<EventosResponse> response) {
+                    if (response.isSuccessful()) {
+                        resposta = response.body();
+                        eventos = resposta.getEventos();
+                        for (Dados info : eventos) {
+                            if (info.getCategoria().equals("NV")) {
+                                novidades.add(new Evento(info.getTitulo(), pasta + info.getimagem(), info.getDescricao()));
+                            }
+                            if (info.getCategoria().equals("EX")) {
+                                exposicoes.add(new Evento(info.getTitulo(), pasta + info.getimagem(), info.getDescricao()));
+                            }
+                            if (info.getCategoria().equals("MU")) {
+                                museus.add(new Evento(info.getTitulo(), pasta + info.getimagem(), info.getDescricao()));
+                            }
+                            if (info.getCategoria().equals("ED")) {
+                                editais.add(new Evento(info.getTitulo(), pasta + info.getimagem(), info.getDescricao()));
+                            }
+                            if (info.getCategoria().equals("GA")) {
+                                galerias.add(new Evento(info.getTitulo(), pasta + info.getimagem(), info.getDescricao()));
+                            }
                         }
-                        if (info.getCategoria().equals("EX")) {
-                            exposicoes.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
-                        }
-                        if (info.getCategoria().equals("MU")) {
-                            museus.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
-                        }
-                        if (info.getCategoria().equals("ED")) {
-                            editais.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
-                        }
-                        if (info.getCategoria().equals("GA")) {
-                            galerias.add(new Evento(info.getTitulo(),pasta+info.getimagem(),info.getDescricao()));
-                        }
+                        setupRecycler(CatNovidades, novidades, txtdesc1);
+                        setupRecycler(CatExposicoes, exposicoes, txtdesc2);
+                        setupRecycler(CatMuseus, museus, txtdesc3);
+                        setupRecycler(CatEditais, editais, txtdesc4);
+                        setupRecycler(CatGalerias, galerias, txtdesc5);
                     }
-                    setupRecycler(CatNovidades, novidades, txtdesc1);
-                    setupRecycler(CatExposicoes, exposicoes, txtdesc2);
-                    setupRecycler(CatMuseus, museus, txtdesc3);
-                    setupRecycler(CatEditais, editais, txtdesc4);
-                    setupRecycler(CatGalerias, galerias, txtdesc5);
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Dados>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<EventosResponse> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Falha: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private void setupRecycler(RecyclerView recyclerView, List<Evento> data, TextView txtdescricao) {
