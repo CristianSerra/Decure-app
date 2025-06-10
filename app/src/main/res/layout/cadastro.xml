@@ -46,7 +46,6 @@ android:layout_height="match_parent">
     <EditText android:id="@+id/etDTNascimento"
         android:hint="@string/cad_hint_data_de_nascimento"
         android:minHeight="48dp"
-        android:inputType="date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

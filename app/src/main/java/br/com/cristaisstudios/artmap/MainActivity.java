@@ -124,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 blocoMU.setVisibility(View.GONE);
                 blocoED.setVisibility(View.GONE);
                 blocoGA.setVisibility(View.GONE);
+                setupRecycler(CatNovidades, new ArrayList<>(), txtdesc1);
+                setupRecycler(CatExposicoes, new ArrayList<>(), txtdesc2);
+                setupRecycler(CatMuseus, new ArrayList<>(), txtdesc3);
+                setupRecycler(CatEditais, new ArrayList<>(), txtdesc4);
+                setupRecycler(CatGalerias, new ArrayList<>(), txtdesc5);
             } else {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);

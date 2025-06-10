@@ -1,11 +1,16 @@
 package br.com.cristaisstudios.artmap;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Calendar;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +39,24 @@ public class CadastroActivity extends AppCompatActivity {
         etUF = findViewById(R.id.etUF);
         btnCadastrar = findViewById(R.id.btnCadastrar);
         btnVoltar = findViewById(R.id.btnVoltar);
+
+        etDTNascimento.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    CadastroActivity.this,
+                    (view, selectedYear, selectedMonth, selectedDay) -> {
+                        // Ajuste o formato da data para "yyyy-MM-dd", compatível com o PHP/MySQL
+                        String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay);
+                        etDTNascimento.setText(selectedDate);
+                    },
+                    year, month, day
+            );
+            datePickerDialog.show();
+        });
 
         btnVoltar.setOnClickListener(v -> {
             Intent intent = new Intent(CadastroActivity.this, MainActivity.class);
@@ -65,10 +88,13 @@ public class CadastroActivity extends AppCompatActivity {
                         if (resposta.isSuccess()) {
                             String token = resposta.getToken();
                             String usuario = resposta.getUser();
+                            String email = etEmail.getText().toString().trim();
                             Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso " + usuario, Toast.LENGTH_SHORT).show();
                             SharedPreferences prefs = getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = prefs.edit();
                             editor.putString("AUTH_USER", usuario);
+                            editor.putString("AUTH_EMAIL", email);
+                            editor.putString("AUTH_TOKEN", token);
                             editor.apply();
 
                             Intent intent = new Intent(CadastroActivity.this, MainActivity.class);

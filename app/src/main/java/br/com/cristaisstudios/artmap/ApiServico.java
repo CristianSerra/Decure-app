@@ -31,7 +31,7 @@ public interface ApiServico {
             @Field("CPF") String cpf,
             @Field("Senha") String senha,
             @Field("Telefone") String telefone,
-            @Field("DTnascimento") String dtnascimento,
+            @Field("DTNascimento") String dtnascimento,
             @Field("logradouro") String logradouro,
             @Field("complemento") String complemento,
             @Field("bairro") String bairro,
